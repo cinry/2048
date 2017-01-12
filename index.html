@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    table {
+        border: 1px solid black
+    }
+
+    td {
+        height: 40px;
+        width: 40px;
+        border: 1px solid black
+    }
+</style>
+<body>
+<div id="dd"></div>
+<div id="bb"></div>
+<script>
+    var t = document.createElement("table");
+    for (var i = 0; i < 5; i++) {
+        var ntr = document.createElement("tr");
+        for (var j = 0; j < 5; j++) {
+            var ntd = document.createElement("td");
+            ntr.appendChild(ntd);
+        }
+        t.appendChild(ntr);
+    }
+    document.body.appendChild(t);
+    var tds = document.getElementsByTagName("td");
+    var trs = document.getElementsByTagName("tr");
+    function frist() {
+        while (true) {
+            var s = Math.floor(Math.random() * 25);
+            if (tds[s].innerText == "") {
+                tds[s].innerText = 2;
+                break;
+            }
+        }
+    }
+    frist();
+    onkeypress = function (e) {
+
+        var heng = [], zong = [];
+        for (var i = 0; i < 5; i++) {
+            var h = [], z = [];
+            var r = trs[i].getElementsByTagName("td");
+            for (var j = 0; j < 5; j++) {
+                var l = trs[j].getElementsByTagName("td");
+                h.push(r[j].innerText);
+                z.push(l[i].innerText)
+            }
+            heng.push(h);
+            zong.push(z);
+        }
+//        dd.innerHTML = heng + "<hr/>" + zong;
+        switch (e.keyCode) {
+            case 119:
+                var mack = true;
+                for (var i = 0; i < 4; i++) {
+                    for (var j = 0; j < 5; j++) {
+                        if (heng[i][j] != "") {
+                            for (var k = i; k < 4; k++) {
+                                if (zong[j][k] == zong[j][k + 1] && zong[j][k] != "") {
+                                    zong[j][k] = 2 * zong[j][k];
+                                    zong[j][k + 1] = "";
+                                }
+                            }
+                        } else {
+                            for (var k = 0; k < 5; k++) {
+                                if (zong[j][i] == "") {
+                                    zong[j].splice(i, 1);
+                                    zong[j].push("");
+                                }else {
+                                    if (zong[j][i] == zong[j][i - 1]&& i>=1) {
+                                        zong[j][i-1] = 2 * zong[j][i-1];
+                                        zong[j][i] = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                bb.innerHTML = heng + "<hr/>" + zong;
+                for (var i = 0; i < 5; i++) {
+                    for (var j = 0; j < 5; j++) {
+                        var l = trs[j].getElementsByTagName("td");
+                        l[i].innerText = zong[i][j];
+                    }
+                }
+                frist();
+                console.log("上");
+                break;
+            case 97:
+                var mack = true;
+                for (var i = 0; i < 4; i++) {
+                    for (var j = 0; j < 5; j++) {
+                        if (zong[i][j] != "") {
+                            for (var k = i; k < 4; k++) {
+                                if (heng[j][k] == heng[j][k + 1] && heng[j][k] != "") {
+                                    heng[j][k] = 2 * heng[j][k];
+                                    heng[j][k + 1] = "";
+                                }
+                            }
+                        } else {
+                            for (var k = 0; k < 5; k++) {
+                                if (heng[j][i] == "") {
+                                    heng[j].splice(i, 1);
+                                    heng[j].push("");
+                                }else {
+                                    if (heng[j][i] == heng[j][i - 1]&& i>=1) {
+                                        heng[j][i-1] = 2 * heng[j][i-1];
+                                        heng[j][i] = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                for (var i = 0; i < 5; i++) {
+                    var r = trs[i].getElementsByTagName("td");
+                    for (var j = 0; j < 5; j++) {
+                        r[j].innerText = heng[i][j];
+                    }
+                }
+                frist();
+                console.log("左");
+                break;
+            case 100:
+                console.log("右");
+                break;
+            case 115:
+                var mack = true;
+                for (var i = 4; i > 0; i--) {
+                    for (var j = 4; j > 0; j--) {
+                        if (heng[i][j] != "") {
+                            for (var k = i; k > 0; k--) {
+                                if (zong[j][k] == zong[j][k + 1] && zong[j][k] != "") {
+                                    zong[j][k] = 2 * zong[j][k];
+                                    zong[j][k + 1] = "";
+                                }
+                            }
+                        } else {
+                            for (var k = 0; k < 5; k++) {
+                                if (zong[j][i] == "") {
+                                    zong[j].splice(i, 1);
+                                    zong[j].push("");
+                                }else {
+                                    if (zong[j][i] == zong[j][i + 1]&& i>=1) {
+                                        zong[j][i+1] = 2 * zong[j][i+1];
+                                        zong[j][i] = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                bb.innerHTML = heng + "<hr/>" + zong;
+                for (var i = 0; i < 5; i++) {
+                    for (var j = 0; j < 5; j++) {
+                        var l = trs[j].getElementsByTagName("td");
+                        l[i].innerText = zong[i][j];
+                    }
+                }
+                frist();
+                console.log("下");
+                break;
+        }
+    }
+</script>
+</body>
+</html>
